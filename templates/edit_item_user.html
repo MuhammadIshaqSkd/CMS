@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 30px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        .btn-primary {
+            margin-top: 20px;
+        }
+    </style>
+    <title>Edit Item</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Inspect Item</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="checklist" class="form-label">Checklist</label>
+                <select class="form-select" id="checklist" name="checklist" required>
+                    <option value="{{ item.checklist }}">{{ item.checklist }}</option>
+                    <option value="Available">Available</option>
+                    <option value="Not Applicable">Not Applicable</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="s_on_floor" class="form-label">7S On Floor</label>
+                <select class="form-select" id="s_on_floor" name="s_on_floor" required>
+                    <option value="{{ item.s_on_floor }}">{{ item.s_on_floor }}</option>
+                    <option value="Available">Available</option>
+                    <option value="Not Applicable">Not Applicable</option>
+                </select>
+            </div>
+                         <div class="mb-3">
+            <label for="tamper_seal" class="form-label">Tamper Seal</label>
+            <select class="form-select" id="tamper_seal" name="tamper_seal" >
+                <option value="{{ item.tamper_seal }}">{{ item.tamper_seal }}</option>
+                <option value="NA">NA</option>
+                <option value="No.01">No.01</option>
+                <option value="400 ">400 </option>
+            </select>
+        </div>
+            <div class="mb-3">
+                <label for="comments" class="form-label">Comments</label>
+                <textarea class="form-control" id="comments" name="comments">{{ item.comments }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Inspect Item</button>
+            <a href="{% url 'userdasboard' %}" class="btn btn-secondary" style="margin-top: 20px;">Back</a>
+
+        </form>
+    </div>
+            <!-- Form fields remain the same -->
+</body>
+</html>

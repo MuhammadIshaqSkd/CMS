@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 30px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+        .btn {
+            margin-right: 5px;
+        }
+        table {
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: center;
+            padding: 12px;
+            border: 1px solid #dee2e6;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+        tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        tbody tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+        .action-btns {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+    </style>
+    <title>Item List</title>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Items</h1>
+        <a href="{% url 'add_item' %}" class="btn btn-success">Add Item</a>
+        <table class="table table-bordered">
+            <thead class="thead-light">
+                <tr>
+                    <th>Location</th>
+                    <th>Description</th>
+                    <th>Identification</th>
+                    <th>Tamper Seal</th>
+                    <th>Overhead Sign</th>
+                    <th>Checklist</th>
+                    <th>Inspected By</th>
+                    <th>7S on Floor</th>
+                    <th>Comments</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.location }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.identification }}</td>
+                    <td>{{ item.tamper_seal }}</td>
+                    <td>{{ item.overhead_sign }}</td>
+                    <td>{{ item.checklist }}</td>
+                    <td>{{ item.inspected_by }}</td>
+                    <td>{{ item.s_on_floor }}</td>
+                    <td>{{ item.comments }}</td>
+                    <td class="action-btns">
+                        <a href="{% url 'edit_item' item.id %}" class="btn btn-warning btn-sm">Edit</a>
+                        <form method="post" action="{% url 'delete_item' item.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="9" class="text-center">No items found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div style="margin-left: 115px; margin-top: 20px;" class="d-flex justify-content-between">
+                <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+            </div>
+</body>
+</html>
