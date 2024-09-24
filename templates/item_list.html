@@ -22,8 +22,11 @@
         .btn {
             margin-right: 5px;
         }
-        table {
+        .table-container {
             margin-top: 20px;
+        }
+        table {
+            width: 100%;
             border-collapse: collapse;
         }
         th, td {
@@ -50,58 +53,74 @@
             justify-content: center;
             gap: 5px;
         }
+        .empty-row {
+            background-color: #ffffff;
+            text-align: center;
+            font-style: italic;
+        }
+        .back-btn-container {
+            margin-top: 20px;
+        }
     </style>
     <title>Item List</title>
 </head>
 <body>
     <div class="container">
         <h1 class="text-center">Items</h1>
-        <a href="{% url 'add_item' %}" class="btn btn-success">Add Item</a>
-        <table class="table table-bordered">
-            <thead class="thead-light">
-                <tr>
-                    <th>Location</th>
-                    <th>Description</th>
-                    <th>Identification</th>
-                    <th>Tamper Seal</th>
-                    <th>Overhead Sign</th>
-                    <th>Checklist</th>
-                    <th>Inspected By</th>
-                    <th>7S on Floor</th>
-                    <th>Comments</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in items %}
-                <tr>
-                    <td>{{ item.location }}</td>
-                    <td>{{ item.description }}</td>
-                    <td>{{ item.identification }}</td>
-                    <td>{{ item.tamper_seal }}</td>
-                    <td>{{ item.overhead_sign }}</td>
-                    <td>{{ item.checklist }}</td>
-                    <td>{{ item.inspected_by }}</td>
-                    <td>{{ item.s_on_floor }}</td>
-                    <td>{{ item.comments }}</td>
-                    <td class="action-btns">
-                        <a href="{% url 'edit_item' item.id %}" class="btn btn-warning btn-sm">Edit</a>
-                        <form method="post" action="{% url 'delete_item' item.id %}" style="display:inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="9" class="text-center">No items found.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="d-flex justify-content-end mb-3">
+            <a href="{% url 'add_item' %}" class="btn btn-success">Add Item</a>
+        </div>
+
+        <div class="table-container">
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Location</th>
+                        <th>Description</th>
+                        <th>Identification</th>
+                        <th>Tamper Seal</th>
+                        <th>Overhead Sign</th>
+                        <th>Checklist</th>
+                        <th>Inspected By</th>
+                        <th>7S on Floor</th>
+                        <th>Comments</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td>{{ item.location }}</td>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.identification }}</td>
+                        <td>{{ item.tamper_seal }}</td>
+                        <td>{{ item.overhead_sign }}</td>
+                        <td>{{ item.checklist }}</td>
+                        <td>{{ item.inspected_by }}</td>
+                        <td>{{ item.s_on_floor }}</td>
+                        <td>{{ item.comments }}</td>
+                        <td class="action-btns">
+                            <a href="{% url 'edit_item' item.id %}" class="btn btn-warning btn-sm">Edit</a>
+                            <form method="post" action="{% url 'delete_item' item.id %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr class="empty-row">
+                        <td colspan="10">No items found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="back-btn-container text-center">
+            <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+        </div>
     </div>
-    <div style="margin-left: 115px; margin-top: 20px;" class="d-flex justify-content-between">
-                <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
-            </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

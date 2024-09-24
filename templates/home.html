@@ -2,40 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Page</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
             padding: 20px;
-            background-color: #f4f4f4;
         }
 
         .dashboard {
             display: flex;
             justify-content: center;
             gap: 30px;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
         }
 
         .box {
-            width: 150px;
+            width: 200px;
             height: 150px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             cursor: pointer;
-            transition: transform 0.2s ease-in-out;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
             text-transform: uppercase;
             font-weight: bold;
+            font-size: 24px;
             color: white;
+            text-align: center;
         }
 
         .box:hover {
-            transform: scale(1.05);
+            transform: scale(1.1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
 
         .green-box {
@@ -46,40 +51,29 @@
             background-color: #dc3545;
         }
 
-        .search-bar, .filters {
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        .search-bar input {
-            padding: 10px;
-            width: 50%;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .filters select {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
         .activity-log, .overview {
             background-color: white;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             margin-top: 30px;
         }
 
+        .activity-log h3, .overview h3 {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
         .activity-log ul {
-            list-style-type: none;
+            list-style: none;
             padding: 0;
         }
 
         .activity-log ul li {
-            padding: 10px;
-            border-bottom: 1px solid #ccc;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            font-size: 16px;
         }
 
         .activity-log ul li:last-child {
@@ -87,53 +81,60 @@
         }
 
         .overview p {
-            font-weight: bold;
-            margin: 10px 0;
+            font-size: 18px;
+            margin: 5px 0;
+            font-weight: 500;
         }
 
-        footer {
+        .footer {
             text-align: center;
             margin-top: 50px;
-            font-size: 12px;
+            font-size: 14px;
             color: #666;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .box {
+                width: 160px;
+                height: 120px;
+                font-size: 20px;
+            }
+            .activity-log h3, .overview h3 {
+                font-size: 20px;
+            }
+            .activity-log ul li {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
 
+    <!-- Dashboard Section -->
     <div class="dashboard">
         <div onclick="location.href='{% url 'inspect_item' %}'" class="box green-box">
-            <p>{{ checked_items }}</p>
+            <p>Checked: <br> {{ checked_items }}</p>
         </div>
 
         <div onclick="location.href='{% url 'overdue_item' %}'" class="box red-box">
-            <p>{{ pending_items }}</p>
+            <p>Overdue: <br> {{ pending_items }}</p>
         </div>
     </div>
 
-<!--    <div class="search-bar">-->
-<!--        <input type="text" placeholder="Search items..." class="form-control">-->
-<!--    </div>-->
-
-<!--    <div class="filters">-->
-<!--        <select class="form-select">-->
-<!--            <option value="all">All Items</option>-->
-<!--            <option value="inspected">Inspected</option>-->
-<!--            <option value="overdue">Overdue</option>-->
-<!--        </select>-->
-<!--    </div>-->
-
+    <!-- Activity Log Section -->
     <div class="activity-log">
         <h3>Recent Activity Log</h3>
         <ul>
             {% for item in recent_activity %}
             {% if item.checklist == "Available" %}
-            <li>{{ item.location }} - Inspected by {{ item.inspected_by }} on {{ item.modified }} - Comments or fixes: {{ item.comments }}</li>
+            <li>{{ item.location }} - Inspected by {{ item.inspected_by }} on {{ item.modified }} - Comments: {{ item.comments }}</li>
             {% endif %}
             {% endfor %}
         </ul>
     </div>
 
+    <!-- Overview Section -->
     <div class="overview">
         <h3>Inspection Status Overview</h3>
         <p>Total Items: {{ total_items }}</p>
@@ -141,15 +142,12 @@
         <p>Items Pending/Overdue: {{ pending_items }}</p>
     </div>
 
-    <footer>
+    <!-- Footer Section -->
+    <footer class="footer">
         &copy; 2024 Inspection Dashboard. All Rights Reserved.
     </footer>
 
-    <script>
-        function showItemDetails(itemId) {
-            // Redirect or open a modal to show item details
-            window.location.href = '/item/' + itemId;
-        }
-    </script>
+    <!-- Optional JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
