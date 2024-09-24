@@ -52,12 +52,8 @@
             </div>
                          <div class="mb-3">
             <label for="tamper_seal" class="form-label">Tamper Seal</label>
-            <select class="form-select" id="tamper_seal" name="tamper_seal" >
-                <option value="{{ item.tamper_seal }}">{{ item.tamper_seal }}</option>
-                <option value="NA">NA</option>
-                <option value="No.01">No.01</option>
-                <option value="400 ">400 </option>
-            </select>
+                             <input type="text" class="form-control" id="tamper_seal" name="tamper_seal" value="{{ item.tamper_seal }}">
+
         </div>
             <div class="mb-3">
                 <label for="comments" class="form-label">Comments</label>
