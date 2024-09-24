@@ -189,6 +189,8 @@ class EditItemView(View):
             messages.success(request, 'Item updated successfully!')
             return redirect('item_list')
         else:
+            item.s_on_floor = request.POST.get('s_on_floor')
+
             item.checklist = request.POST.get('checklist')
             item.inspected_by = request.user
             item.comments = request.POST.get('comments')

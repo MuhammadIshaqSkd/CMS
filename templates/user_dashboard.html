@@ -69,6 +69,7 @@
                     <th>Checklist</th>
                     <th>7S on Floor</th>
                     <th>Comments</th>
+                    <th>Action</th> <!-- Added an Action column -->
                 </tr>
             </thead>
             <tbody>
@@ -82,9 +83,13 @@
                     <td>{{ item.checklist }}</td>
                     <td>{{ item.s_on_floor }}</td>
                     <td>{{ item.comments }}</td>
-        <td class="action-btns">
-            <a href="{% url 'edit_item' item.id %}" class="btn btn-warning btn-sm">Inspect Item</a>
-        </td>
+                    <td class="action-btns">
+                        {% if item.checklist != "Available" %}
+                            <a href="{% url 'edit_item' item.id %}" class="btn btn-warning btn-sm">Inspect Item</a>
+                        {% else %}
+        <a href="{% url 'edit_item' item.id %}" class="btn btn-success btn-sm">Reinspect Item</a>
+                        {% endif %}
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>
@@ -94,9 +99,10 @@
             </tbody>
         </table>
     </div>
- <form method="post" action="{% url 'logout' %}" style="margin-top: 20px;">
+    <form method="post" action="{% url 'logout' %}" style="margin-top: 20px;">
         {% csrf_token %}
         <button style="margin-left: 115px;" type="submit" class="btn btn-danger">Logout</button>
     </form>
 </body>
+
 </html>
