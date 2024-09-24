@@ -1,4 +1,3 @@
-from Tools.scripts.win_add2path import modify
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate
 from django.contrib import messages
