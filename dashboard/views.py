@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
+
+from dashboard.helper import update_inspect_item
 from users.models import User
 # Create your views here.
 from django import forms
@@ -16,6 +18,7 @@ class Dashboard( LoginRequiredMixin,View):
     login_url = '/login'
     @staticmethod
     def get(request):
+        update_inspect_item()
         if request.user.user_role == "Admin":
             all_user = User.objects.all()
             normal_user = all_user.count
@@ -37,6 +40,7 @@ class UserDasboard(LoginRequiredMixin, View):
     login_url = "/login"
     @staticmethod
     def get(request):
+        update_inspect_item()
         user = request.user
         items = Item.objects.all()
         return render(request, 'user_dashboard.html', {'items': items, 'user':user})
@@ -45,6 +49,7 @@ class UserDasboard(LoginRequiredMixin, View):
 class EditUserRoleForm(forms.ModelForm):
     class Meta:
         model = User
+        update_inspect_item()
         fields = ['user_role']  # Assume user_role is a field in your User model
 
 class EditUserView(View):
@@ -79,6 +84,7 @@ class DeleteUserView(LoginRequiredMixin, View):
     login_url = '/login'
 
     def get(self, request, user_id):
+        update_inspect_item()
         if request.user.user_role == "Admin":
             user = get_object_or_404(User, id=user_id)
             user.delete()  # Delete the user from the database
@@ -88,12 +94,14 @@ class DeleteUserView(LoginRequiredMixin, View):
 
 class AddUserView(View):
     def get(self, request):
+        update_inspect_item()
         if request.user.user_role == "Admin":
             return render(request, 'add_user.html')
         else:
             return redirect('/')
 
     def post(self, request):
+        update_inspect_item()
         if request.user.user_role == "Admin":
             email = request.POST.get('email')
             password = request.POST.get('password')
@@ -120,6 +128,7 @@ class AddUserView(View):
 
 class ItemListView(View):
     def get(self, request):
+        update_inspect_item()
         if request.user.user_role == "Admin":
             items = Item.objects.all()
             return render(request, 'item_list.html', {'items': items})
@@ -129,6 +138,7 @@ class ItemListView(View):
 
 class AddItemView(View):
     def get(self, request):
+        update_inspect_item()
         if request.user.user_role == "Admin":
             return render(request, 'add_item.html')
         else:
@@ -166,6 +176,7 @@ class AddItemView(View):
 
 class EditItemView(View):
     def get(self, request, item_id):
+        update_inspect_item()
         item = get_object_or_404(Item, id=item_id)
         if request.user.user_role == 'Admin':
             return render(request, 'edit_item.html', {'item': item})
@@ -211,11 +222,13 @@ class DeleteItemView(View):
 
 
 def inspect_item(request):
+    update_inspect_item()
     items = Item.objects.filter(checklist='Available')
     checklist = items.first()
     return render(request, 'item_detail.html', {'items': items, 'checklist':checklist})
 
 def overdue_item(request):
+    update_inspect_item()
     items = Item.objects.filter(checklist='Not Applicable')
     checklist = items.first()
     return render(request, 'item_detail.html', {'items': items, 'checklist':checklist})

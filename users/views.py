@@ -5,6 +5,8 @@ from django.contrib import messages
 
 from django.views import View
 from django.contrib.auth import login
+
+from dashboard.helper import update_inspect_item
 from dashboard.models import Item
 from datetime import datetime
 
@@ -13,7 +15,7 @@ from datetime import datetime
 class Home(View):
     @staticmethod
     def get(request):
-
+        update_inspect_item()
         # Query for inspected and overdue items (you may have a field to define inspected/overdue)
         inspected_items = Item.objects.filter(checklist='Available')  # assuming 'status' field
         overdue_items = Item.objects.filter(checklist='Not Applicable')  # assuming 'status' field
@@ -59,6 +61,7 @@ class Home(View):
 class Login(View):
     @staticmethod
     def get(request):
+        update_inspect_item()
         return render(request, "login.html")
 
     def post(self,request):
