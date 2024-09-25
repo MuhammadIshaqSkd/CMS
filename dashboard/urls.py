@@ -11,7 +11,8 @@ from dashboard.views import (
     AddItemView,
     EditItemView,
     DeleteItemView,
-    inspect_item
+    inspect_item,
+    item_list_filter
 
 )
 
@@ -27,5 +28,5 @@ urlpatterns = [
     path('items/edit/<int:item_id>/', EditItemView.as_view(), name='edit_item'),
     path('items/delete/<int:item_id>/', DeleteItemView.as_view(), name='delete_item'),
 
-
+    path('item_list_filter/', item_list_filter, name='item_list_filter'),
 ]

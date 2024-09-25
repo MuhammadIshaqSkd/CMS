@@ -232,3 +232,24 @@ def overdue_item(request):
     items = Item.objects.filter(checklist='Not Applicable')
     checklist = items.first()
     return render(request, 'item_detail.html', {'items': items, 'checklist':checklist})
+
+
+def item_list_filter(request):
+    items = Item.objects.all()
+    location = request.GET.get('location')
+    checklist = request.GET.get('checklist')
+    description = request.GET.get('description')
+
+    if location:
+        items = items.filter(location__icontains=location)
+    if checklist and checklist != "All":
+        items = items.filter(checklist=checklist)
+    if description:
+        items = items.filter(description__icontains=description)
+
+    context = {'items': items}
+    print(request.user.user_role)
+    if request.user.user_role == "Admin":
+        return render(request, 'item_list.html', context)
+    else:
+        return render(request, 'user_dashboard.html', context)

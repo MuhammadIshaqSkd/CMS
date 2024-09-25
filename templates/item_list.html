@@ -67,6 +67,32 @@
 <body>
     <div class="container">
         <h1 class="text-center">Items</h1>
+                
+        <!-- Search Form -->
+        <form method="GET" action="{% url 'item_list_filter' %}" class="mb-4">
+            <div class="row filter-inputs">
+                <div class="col-md-3">
+                    <!-- Checklist Filter with Label -->
+                    <label for="checklist" class="form-label">Filter by Checklist</label>
+                    <select name="checklist" id="checklist" class="form-control">
+                        <option value="">All</option>
+                        <option value="Available" {% if request.GET.checklist == 'Available' %}selected{% endif %}>Available</option>
+                        <option value="Not Applicable" {% if request.GET.checklist == 'Not Applicable' %}selected{% endif %}>Not Applicable</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="location" class="form-label">Search by Location</label>
+                    <input type="text" name="location" class="form-control" id="location" placeholder="Search by Location" value="{{ request.GET.location }}">
+                </div>
+                <div class="col-md-3">
+                    <label for="description" class="form-label">Search by Description</label>
+                    <input type="text" name="description" class="form-control" id="description" placeholder="Search by Description" value="{{ request.GET.description }}">
+                </div>
+                <div class="col-md-3 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">Search</button>
+                </div>
+            </div>
+        </form>
         <div class="d-flex justify-content-end mb-3">
             <a href="{% url 'add_item' %}" class="btn btn-success">Add Item</a>
         </div>
