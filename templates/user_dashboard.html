@@ -8,13 +8,12 @@
         body {
             background-color: #f8f9fa;
         }
-        .container {
-            margin-top: 30px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+        .card {
+        background-color: white;
+        border: none !important;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
         h1 {
             color: #343a40;
             margin-bottom: 20px;
@@ -61,6 +60,10 @@
         .filter-inputs select, .filter-inputs input {
             height: 38px;
         }
+        .table-bordered{
+            width: 100%;
+            overflow-x: scroll;
+        }
     </style>
     <title>Item List</title>
 </head>
@@ -68,7 +71,10 @@
     <h1 class="text-center">Welcome to the User Dashboard</h1>
     <p class="text-center email-text">{{ user.email }}</p>
     
-    <div class="container">
+    
+        <div class="container">
+            <div class="row p-3">
+              <div class="col-12 col-sm-12 col-md-12 col-lg-12 mx-auto card p-4">
         <h1 class="text-center">Items</h1>
         
         <!-- Search Form -->
@@ -91,13 +97,14 @@
                     <label for="description" class="form-label">Search by Description</label>
                     <input type="text" name="description" class="form-control" id="description" placeholder="Search by Description" value="{{ request.GET.description }}">
                 </div>
-                <div class="col-md-3 d-flex align-items-end">
+                <div class="col-md-3 mt-3 mt-md-0 d-flex align-items-end">
                     <button type="submit" class="btn btn-primary w-100">Search</button>
                 </div>
             </div>
         </form>
 
         <!-- Items Table -->
+        <div class="table-container overflow-x-scroll w-100" >
         <table class="table table-bordered">
             <thead class="thead-light">
                 <tr>
@@ -138,11 +145,18 @@
                 {% endfor %}
             </tbody>
         </table>
+        </div>
+        <div class="w-100 d-flex justify-content-start">
+            <form method="post" action="{% url 'logout' %}" style="margin-top: 20px;">
+                {% csrf_token %}
+                <button  type="submit" class="btn btn-danger">Logout</button>
+            </form>
+        </div>
+        
+        </div>
+        </div>
     </div>
 
-    <form method="post" action="{% url 'logout' %}" style="margin-top: 20px;">
-        {% csrf_token %}
-        <button style="margin-left: 115px;" type="submit" class="btn btn-danger">Logout</button>
-    </form>
+    
 </body>
 </html>
