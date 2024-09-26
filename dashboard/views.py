@@ -249,7 +249,6 @@ def item_list_filter(request):
         items = items.filter(description__icontains=description)
 
     context = {'items': items}
-    print(request.user.user_role)
     if request.user.user_role == "Admin":
         return render(request, 'item_list.html', context)
     else:
