@@ -22,6 +22,10 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         transition: 0.3s;
         margin-top: 20px;
+        min-height: 180px;
+        /* height: 100%; */
+        display: flex;
+        justify-content: space-between;
       }
       .card:hover {
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -72,22 +76,22 @@
       <div class="row">
         <div class="col-md-4">
           <div
-            class="card text-center"
+            class="card text-center p-3"
             role="button"
             data-bs-toggle="modal"
             data-bs-target="#userModal"
           >
-            <div class="card-body">
+            <div class="py-2">
               <h2 class="card-title">Total Users</h2>
-              <p class="card-text">{{ normal_user }}</p>
+              <p class="card-text fs-3">{{ normal_user }}</p>
             </div>
             <a href="#" class="btn btn-primary">View Users</a>
           </div>
         </div>
 
         <div class="col-md-4">
-          <div class="card text-center">
-            <div class="card-body">
+          <div class="card text-center p-3">
+            <div class="py-2">
               <h2 class="card-title">Add Users</h2>
               <p class="card-text">Click the button below to add a new user.</p>
             </div>
@@ -96,10 +100,10 @@
         </div>
 
         <div class="col-md-4">
-          <div class="card text-center">
-            <div class="card-body">
+          <div class="card text-center p-3">
+            <div class="py-2">
               <h2 class="card-title">Total Items</h2>
-              <p class="card-text">{{ all_item }}</p>
+              <p class="card-text fs-3">{{ all_item }}</p>
             </div>
             <a href="{% url 'item_list' %}" class="btn btn-primary"
               >View Items</a

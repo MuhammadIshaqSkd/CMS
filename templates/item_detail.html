@@ -59,15 +59,51 @@
   <body>
     <div class="row m-0">
       <div class="col-12 my-3 my-lg-5">
-        <div class="card mx-2 mx-lg-4 py-2">
+        <div class="card mx-2 mx-lg-4 py-2 px-lg-3 px-2">
           {% if checklist.checklist == "Available" %}
           <h1 class="text-center">Inspected Items</h1>
           {% else %}
           <h1 class="text-center">Overdue Items</h1>
           {% endif %}
-
+          <div>
+            <div class="d-flex w-100 justify-content-center justify-content-md-end  mb-3">
+              <div >
+                <!-- Back Button -->
+                <button
+                  class="btn btn-secondary btn-md"
+                  onclick="window.history.back();"
+                >
+                  Back to Home
+                </button>
+              </div>
+              <div >
+                <!-- Export Button -->
+                {% if checklist.checklist == "Available" %}
+                <button
+                id="exportButton"
+                class="btn btn-success btn-md"
+                onclick="exportToCSV('inspected_item_list.csv')"
+                {% if items|length == 0 %} disabled {% endif %}
+              >
+                Export to CSV
+              </button>
+                {% else %}
+                <button
+                id="exportButton"
+                class="btn btn-success btn-md"
+                onclick="exportToCSV('overdue_item_list.csv')"
+                {% if items|length == 0 %} disabled {% endif %}
+              >
+                Export to CSV
+              </button>
+                {% endif %}
+                
+              
+              </div>
+            </div>
+          </div>
           <div class="table-container mx-2" style="overflow-x: auto">
-            <table class="table table-bordered w-100">
+            <table class="table table-bordered w-100" id="data-table">
               <thead class="thead-light">
                 <tr>
                   <th>Location</th>
@@ -105,5 +141,34 @@
         </div>
       </div>
     </div>
+    <script>
+      function checkItems() {
+        const table = document.getElementById("data-table");
+
+        const exportButton = document.getElementById("exportButton");
+
+        // If row count is 0, disable the export button, otherwise enable it
+        exportButton.disabled = items.length > 0;
+      }
+
+      // Run the check when the page loads
+      window.onload = checkItems;
+      function exportToCSV(filename) {
+        const table = document.getElementById("data-table");
+        let csvContent = "";
+        for (let row of table.rows) {
+          let rowData = Array.from(row.cells).map((cell) => cell.innerText);
+          csvContent += rowData.join(",") + "\n";
+        }
+
+        // Create a download link for the CSV
+        const blob = new Blob([csvContent], { type: "text/csv" });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.setAttribute("href", url);
+        a.setAttribute("download", filename);
+        a.click();
+      }
+    </script>
   </body>
 </html>
