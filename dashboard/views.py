@@ -205,6 +205,7 @@ class EditItemView(View):
             item.checklist = request.POST.get('checklist')
             item.inspected_by = request.user
             item.comments = request.POST.get('comments')
+            item.tamper_seal = request.POST.get('tamper_seal')
             item.save()
             messages.success(request, 'Item Inspect successfully!')
             return redirect('userdasboard')
