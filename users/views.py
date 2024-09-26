@@ -19,26 +19,6 @@ class Home(View):
         inspected_items = Item.objects.filter(checklist='Available')  # assuming 'status' field
         overdue_items = Item.objects.filter(checklist='Not Applicable')  # assuming 'status' field
 
-        # Search functionality
-        # query = request.GET.get('q')
-        # if query:
-        #     inspected_items = inspected_items.filter(
-        #         models.Q(location__icontains=query) |
-        #         models.Q(description__icontains=query) |
-        #         models.Q(identification__icontains=query)
-        #     )
-        #     overdue_items = overdue_items.filter(
-        #         models.Q(location__icontains=query) |
-        #         models.Q(description__icontains=query) |
-        #         models.Q(identification__icontains=query)
-        #     )
-        #
-        # # Filter options (example for checklist status)
-        # checklist_filter = request.GET.get('checklist')
-        # if checklist_filter:
-        #     inspected_items = inspected_items.filter(checklist=checklist_filter)
-        #     overdue_items = overdue_items.filter(checklist="Not Applicable")
-
         # Recent Activity Log (you may have an inspection log model)
         recent_activity = Item.objects.filter(modified__gte=datetime.now().replace(day=1))  # Inspected this month
 

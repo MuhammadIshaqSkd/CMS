@@ -127,9 +127,7 @@
         <h3>Recent Activity Log</h3>
         <ul>
             {% for item in recent_activity %}
-            {% if item.checklist == "Available" %}
             <li>{{ item.location }} - Inspected by {{ item.inspected_by }} on {{ item.modified }} - Comments: {{ item.comments }}</li>
-            {% endif %}
             {% endfor %}
         </ul>
     </div>
