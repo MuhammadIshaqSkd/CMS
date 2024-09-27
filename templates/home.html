@@ -93,6 +93,12 @@
             color: #666;
         }
 
+        .login-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .box {
@@ -106,10 +112,17 @@
             .activity-log ul li {
                 font-size: 14px;
             }
+            .login-btn {
+                top: 10px;
+                right: 10px;
+            }
         }
     </style>
 </head>
 <body>
+
+    <!-- Login Button -->
+    <a href="/login" class="btn btn-primary login-btn">Login</a>
 
     <!-- Dashboard Section -->
     <div class="dashboard">
